@@ -1,576 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Python · mature learning</title>
-  <!-- Font & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python, From Scratch — A Beginner's Chalkboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board-1:#1E2E28;
+    --board-2:#16211D;
+    --chalk:#F4F1E8;
+    --chalk-dim:#B9C4B7;
+    --yellow:#FFD43B;
+    --blue:#7FB3D3;
+    --rule: rgba(244,241,232,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--board-2);
+    color:var(--chalk);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(145deg, #f6f9fc 0%, #edf2f7 100%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
-      color: #1a2a3a;
-    }
+  a{color:var(--yellow);}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--yellow); outline-offset:3px;}
 
-    /* main card – attractive & interactive */
-    .learn-card {
-      max-width: 1100px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 56px;
-      padding: 2.5rem 2.8rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
-                  inset 0 1px 2px rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-    }
+  .chalk-font{font-family:'Caveat',cursive;}
 
-    .learn-card:hover {
-      transform: scale(1.005);
-      box-shadow: 0 30px 60px -15px rgba(0, 20, 40, 0.3);
-    }
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(22,33,29,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px dashed var(--rule);
+    padding:14px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:10px;
+  }
+  .brand{font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--chalk); font-size:1rem; letter-spacing:0.5px;}
+  .brand span{color:var(--yellow);}
+  .navlinks{display:flex; gap:18px; flex-wrap:wrap;}
+  .navlinks a{color:var(--chalk-dim); text-decoration:none; font-size:0.92rem; font-family:'JetBrains Mono',monospace;}
+  .navlinks a:hover{color:var(--yellow);}
 
-    /* header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-      border-bottom: 2px dashed rgba(52, 73, 94, 0.15);
-      padding-bottom: 1.2rem;
-    }
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:90px 24px 70px;
+    text-align:center;
+    background:
+      radial-gradient(ellipse at top, rgba(127,179,211,0.08), transparent 60%),
+      var(--board-2);
+    border-bottom:1px dashed var(--rule);
+  }
+  .hero h1{
+    font-family:'Caveat',cursive;
+    font-weight:700;
+    font-size:clamp(2.6rem, 7vw, 4.6rem);
+    margin:0 0 8px;
+    color:var(--chalk);
+  }
+  .hero h1 em{color:var(--yellow); font-style:normal;}
+  .hero p.tag{
+    color:var(--chalk-dim);
+    font-size:1.05rem;
+    max-width:520px;
+    margin:0 auto 34px;
+  }
+  .terminal{
+    max-width:560px;
+    margin:0 auto;
+    background:#0F1712;
+    border:1px solid var(--rule);
+    border-radius:10px;
+    text-align:left;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+  }
+  .terminal .bar{
+    background:#1B2621; padding:9px 14px; display:flex; gap:7px;
+    border-bottom:1px solid var(--rule);
+  }
+  .terminal .dot{width:11px;height:11px;border-radius:50%;}
+  .terminal pre{
+    margin:0; padding:22px 20px; min-height:90px;
+    font-family:'JetBrains Mono',monospace; font-size:0.95rem; color:#D7E8DC;
+    white-space:pre-wrap;
+  }
+  .cursor{display:inline-block; width:8px; height:1.1em; background:var(--yellow); vertical-align:text-bottom; animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
 
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+  /* ---------- SECTION SHELL ---------- */
+  .lessons{max-width:920px; margin:0 auto; padding:60px 24px 100px;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--yellow);
+    font-size:0.8rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  section.lesson{
+    padding:52px 0;
+    border-bottom:1px dashed var(--rule);
+    scroll-margin-top:80px;
+  }
+  section.lesson:last-child{border-bottom:none;}
+  .lesson h2{
+    font-family:'Caveat',cursive;
+    font-size:2.4rem;
+    margin:0 0 6px;
+    color:var(--chalk);
+  }
+  .lesson > p.lead{color:var(--chalk-dim); max-width:640px; margin-bottom:26px;}
 
-    .logo-icon {
-      background: #2c3e50;
-      color: #f1c40f;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 18px;
-      font-size: 1.8rem;
-      box-shadow: 0 8px 14px -6px rgba(44, 62, 80, 0.3);
-    }
+  .grid{display:grid; grid-template-columns: 1.1fr 0.9fr; gap:28px; align-items:start;}
+  @media (max-width:760px){.grid{grid-template-columns:1fr;}}
 
-    .logo-text {
-      font-weight: 700;
-      font-size: 1.8rem;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #1e2a36, #2c3e50);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+  /* code card with hand-drawn chalk annotation */
+  .codecard{position:relative; background:#0F1712; border:1px solid var(--rule); border-radius:10px; padding:20px 18px 18px;}
+  .codecard pre{margin:0; font-family:'JetBrains Mono',monospace; font-size:0.88rem; color:#D7E8DC; overflow-x:auto;}
+  .codecard .keyword{color:var(--yellow);}
+  .codecard .str{color:#B7D99A;}
+  .codecard .cmt{color:#7A8B80;}
+  .codecard .num{color:var(--blue);}
 
-    .logo-text span {
-      font-weight: 400;
-      background: none;
-      -webkit-text-fill-color: #3a5a7a;
-      color: #3a5a7a;
-    }
+  .annot{
+    position:absolute;
+    font-family:'Caveat',cursive;
+    color:var(--yellow);
+    font-size:1.15rem;
+    pointer-events:none;
+    line-height:1;
+  }
 
-    .mature-badge {
-      background: #e8edf3;
-      padding: 0.5rem 1.2rem;
-      border-radius: 100px;
-      font-weight: 500;
-      font-size: 0.95rem;
-      color: #1e3a5f;
-      border: 1px solid #cddae9;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-    }
+  .runbar{display:flex; align-items:center; gap:12px; margin-top:14px;}
+  .runbtn{
+    background:transparent; color:var(--yellow); border:1px solid var(--yellow);
+    font-family:'JetBrains Mono',monospace; font-size:0.82rem; padding:7px 14px;
+    border-radius:6px; cursor:pointer; transition:background 0.15s ease, color 0.15s ease;
+  }
+  .runbtn:hover{background:var(--yellow); color:#16211D;}
+  .output{
+    font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:var(--chalk-dim);
+    background:transparent; border-left:2px solid var(--rule); padding-left:10px;
+    min-height:1.4em; flex:1;
+  }
+  .output.shown{color:#B7D99A;}
 
-    .mature-badge i {
-      margin-right: 6px;
-      color: #d4a017;
-    }
+  .explain p{color:var(--chalk-dim); font-size:0.98rem; margin:0 0 14px;}
+  .explain strong{color:var(--chalk);}
+  .explain ul{padding-left:20px; color:var(--chalk-dim); margin:0;}
+  .explain li{margin-bottom:8px;}
 
-    /* tagline */
-    .tagline {
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: #2b4a6a;
-      background: rgba(255, 255, 255, 0.5);
-      padding: 0.6rem 1.4rem;
-      border-radius: 40px;
-      display: inline-block;
-      backdrop-filter: blur(4px);
-      margin-bottom: 2rem;
-      border: 1px solid rgba(255,255,255,0.7);
-    }
-
-    .tagline i {
-      margin-right: 8px;
-      color: #1e6f9f;
-    }
-
-    /* grid – interactive content */
-    .python-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.8rem;
-      margin: 2.2rem 0 2.5rem;
-    }
-
-    .topic-card {
-      background: white;
-      border-radius: 28px;
-      padding: 1.6rem 1rem 1.4rem;
-      text-align: center;
-      transition: all 0.2s ease;
-      box-shadow: 0 8px 18px -8px rgba(0, 20, 40, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(2px);
-      cursor: default;
-    }
-
-    .topic-card:hover {
-      transform: translateY(-6px);
-      background: #ffffff;
-      box-shadow: 0 18px 30px -12px rgba(0, 40, 70, 0.2);
-      border-color: #b0c9e0;
-    }
-
-    .topic-card i {
-      font-size: 2.8rem;
-      color: #2c3e50;
-      background: #ecf3fa;
-      padding: 0.7rem;
-      border-radius: 20px;
-      margin-bottom: 0.75rem;
-      transition: 0.2s;
-    }
-
-    .topic-card:hover i {
-      background: #d4e2f0;
-      color: #1a2f44;
-      transform: scale(1.02);
-    }
-
-    .topic-card h3 {
-      font-weight: 600;
-      font-size: 1.3rem;
-      margin-bottom: 0.3rem;
-      color: #1f3347;
-    }
-
-    .topic-card p {
-      font-size: 0.9rem;
-      color: #4a627a;
-      font-weight: 400;
-      line-height: 1.4;
-    }
-
-    .interactive-area {
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 40px;
-      padding: 1.8rem 2.2rem;
-      margin-top: 1.2rem;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem 1.8rem;
-    }
-
-    .code-prompt {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      background: #1e2c3c;
-      padding: 0.5rem 1.2rem 0.5rem 1.8rem;
-      border-radius: 60px;
-      color: #e6edf5;
-      font-family: 'Inter', monospace;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
-    }
-
-    .code-prompt i {
-      color: #f1c40f;
-      font-size: 1.2rem;
-    }
-
-    .code-prompt .code {
-      background: #2a3b4e;
-      padding: 0.2rem 0.9rem;
-      border-radius: 30px;
-      font-size: 0.9rem;
-      color: #c7d9e8;
-    }
-
-    .interactive-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      background: white;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: #1a2e44;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
-      border: 1px solid #d6e2ee;
-      transition: all 0.15s ease;
-      cursor: pointer;
-      background: rgba(255,255,255,0.7);
-      backdrop-filter: blur(2px);
-    }
-
-    .btn i {
-      font-size: 1rem;
-      color: #2f4a6b;
-    }
-
-    .btn-primary {
-      background: #1f3349;
-      border: 1px solid #304a66;
-      color: white;
-      box-shadow: 0 6px 14px rgba(26, 47, 70, 0.25);
-    }
-
-    .btn-primary i {
-      color: #f1c40f;
-    }
-
-    .btn-primary:hover {
-      background: #2a405a;
-      transform: scale(1.02);
-      border-color: #4f6d8c;
-      box-shadow: 0 10px 20px -6px #1a2f44;
-    }
-
-    .btn-outline:hover {
-      background: #dde6f0;
-      border-color: #8da3bb;
-      transform: scale(1.02);
-    }
-
-    #feedbackMessage {
-      font-size: 0.95rem;
-      padding: 0.3rem 0 0 0.5rem;
-      color: #1f4a6e;
-      font-weight: 500;
-      min-width: 140px;
-    }
-
-    .footer-note {
-      margin-top: 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      font-size: 0.9rem;
-      color: #3f5a78;
-      border-top: 1px solid rgba(60, 80, 100, 0.15);
-      padding-top: 1.5rem;
-    }
-
-    .footer-note i {
-      color: #b22234;
-    }
-
-    .progress-indicator {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .progress-indicator .bar {
-      width: 100px;
-      height: 6px;
-      background: #d0dceb;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .progress-indicator .bar .fill {
-      height: 100%;
-      width: 68%;
-      background: linear-gradient(90deg, #2e5a7a, #4b7aa1);
-      border-radius: 20px;
-    }
-
-    /* responsive */
-    @media (max-width: 700px) {
-      .learn-card {
-        padding: 1.8rem;
-        border-radius: 36px;
-      }
-      .header {
-        flex-direction: column;
-        align-items: start;
-        gap: 0.8rem;
-      }
-      .interactive-area {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .code-prompt {
-        justify-content: center;
-      }
-    }
-
-    /* interactive pulse */
-    .pulse-once {
-      animation: pulse 0.5s ease 1;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); background: #e7eff8; }
-      100% { transform: scale(1); }
-    }
-
-    .clickable-card {
-      cursor: pointer;
-    }
-  </style>
+  footer{
+    background:var(--board-1);
+    border-top:1px dashed var(--rule);
+    padding:50px 24px;
+    text-align:center;
+  }
+  footer h3{font-family:'Caveat',cursive; font-size:2rem; margin:0 0 10px;}
+  footer p{color:var(--chalk-dim); max-width:480px; margin:0 auto 20px;}
+  .badge{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:0.8rem;
+    color:var(--chalk-dim); border:1px dashed var(--rule); padding:6px 12px; border-radius:20px;
+  }
+</style>
 </head>
 <body>
-  <div class="learn-card">
-    <!-- header -->
-    <div class="header">
-      <div class="logo-area">
-        <div class="logo-icon"><i class="fab fa-python"></i></div>
-        <div class="logo-text">Python<span> · mature</span></div>
-      </div>
-      <div class="mature-badge">
-        <i class="fas fa-graduation-cap"></i> lifelong learning
-      </div>
-    </div>
 
-    <!-- tagline -->
-    <div class="tagline">
-      <i class="fas fa-leaf"></i>  curated for experienced minds · learn at your own rhythm
-    </div>
-
-    <!-- interactive grid : attractive topics -->
-    <div class="python-grid">
-      <div class="topic-card clickable-card" data-topic="variables">
-        <i class="fas fa-code"></i>
-        <h3>Variables</h3>
-        <p>dynamic, typed, intuitive</p>
-      </div>
-      <div class="topic-card clickable-card" data-topic="functions">
-        <i class="fas fa-cogs"></i>
-        <h3>Functions</h3>
-        <p>reusable & clean</p>
-      </div>
-      <div class="topic-card clickable-card" data-topic="lists">
-        <i class="fas fa-list-ul"></i>
-        <h3>Lists & loops</h3>
-        <p>iterate with confidence</p>
-      </div>
-      <div class="topic-card clickable-card" data-topic="dictionaries">
-        <i class="fas fa-database"></i>
-        <h3>Dictionaries</h3>
-        <p>key‑value mastery</p>
-      </div>
-    </div>
-
-    <!-- interactive area : backend feeling & actions -->
-    <div class="interactive-area" id="interactiveZone">
-      <div class="code-prompt">
-        <i class="fas fa-terminal"></i>
-        <span class="code">print(“Hello, mature learner!”)</span>
-        <span style="opacity:0.6; font-weight:300; margin-left:4px;">&nbsp;▍</span>
-      </div>
-
-      <div class="interactive-actions">
-        <button class="btn btn-primary" id="runCodeBtn"><i class="fas fa-play"></i> Run</button>
-        <button class="btn btn-outline" id="resetCodeBtn"><i class="fas fa-sync-alt"></i> Reset</button>
-        <span id="feedbackMessage"><i class="fas fa-check-circle" style="color:#2a7a4b;"></i> ready</span>
-      </div>
-    </div>
-
-    <!-- footer + progress -->
-    <div class="footer-note">
-      <div>
-        <i class="fas fa-book-open"></i>  <strong>6 modules</strong> · 2 active
-      </div>
-      <div class="progress-indicator">
-        <span><i class="fas fa-hourglass-half"></i>  progress</span>
-        <div class="bar"><div class="fill"></div></div>
-        <span>68%</span>
-      </div>
-      <div>
-        <i class="fas fa-clock"></i>  last activity: today
-      </div>
-    </div>
+<nav>
+  <div class="brand">python<span>.</span>chalkboard</div>
+  <div class="navlinks">
+    <a href="#variables">Variables</a>
+    <a href="#conditionals">Conditionals</a>
+    <a href="#loops">Loops</a>
+    <a href="#functions">Functions</a>
+    <a href="#lists">Lists</a>
   </div>
+</nav>
 
-  <script>
-    (function() {
-      // interactive elements
-      const feedback = document.getElementById('feedbackMessage');
-      const runBtn = document.getElementById('runCodeBtn');
-      const resetBtn = document.getElementById('resetCodeBtn');
-      const codeDisplay = document.querySelector('.code');
-      const interactiveZone = document.getElementById('interactiveZone');
-      const topicCards = document.querySelectorAll('.topic-card');
+<header class="hero">
+  <h1>Python, <em>from scratch</em>.</h1>
+  <p class="tag">A pilot tutorial for absolute beginners. No prior coding experience needed — just curiosity and five minutes a lesson.</p>
+  <div class="terminal">
+    <div class="bar">
+      <div class="dot" style="background:#FF5F57"></div>
+      <div class="dot" style="background:#FEBC2E"></div>
+      <div class="dot" style="background:#28C840"></div>
+    </div>
+    <pre id="typed"></pre>
+  </div>
+</header>
 
-      // default code state
-      const defaultCode = 'print(“Hello, mature learner!”)';
-      const codeVariants = {
-        variables: 'age = 55 · name = “Elena” · print(age, name)',
-        functions: 'def greet(): return “Welcome back!” · print(greet())',
-        lists: 'topics = [“OOP”, “data”, “AI”] · for t in topics: print(t)',
-        dictionaries: 'person = {“name”: “Carl”, “level”: “pro”} · print(person[“name”])'
-      };
+<main class="lessons">
 
-      // helper: update code and feedback with a small interactive effect
-      function updateCodeAndFeedback(newCode, msg, isSuccess = true) {
-        if (codeDisplay) {
-          codeDisplay.textContent = newCode;
-        }
-        if (feedback) {
-          feedback.innerHTML = (isSuccess ? '<i class="fas fa-check-circle" style="color:#2a7a4b;"></i> ' : '<i class="fas fa-info-circle" style="color:#b07d1b;"></i> ') + msg;
-          // add a small pulse animation
-          feedback.classList.remove('pulse-once');
-          void feedback.offsetWidth; // trigger reflow
-          feedback.classList.add('pulse-once');
-        }
-        // pulse the interactive zone softly
-        interactiveZone.classList.remove('pulse-once');
-        void interactiveZone.offsetWidth;
-        interactiveZone.classList.add('pulse-once');
-      }
+  <section class="lesson" id="variables">
+    <div class="eyebrow">Lesson 01</div>
+    <h2>Variables &amp; storing data</h2>
+    <p class="lead">A variable is just a labeled box. You put something in it, and Python remembers it by name.</p>
+    <div class="grid">
+      <div class="codecard">
+        <svg class="annot" style="top:-6px; left:170px; width:90px; height:40px;" viewBox="0 0 90 40" fill="none"><path d="M5 35 Q 40 5 85 15" stroke="#FFD43B" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M75 8 L85 15 L74 20" stroke="#FFD43B" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        <span class="annot" style="top:-30px; left:160px;">this is the box</span>
+        <pre><span class="keyword">name</span> = <span class="str">"Aanya"</span>
+<span class="keyword">age</span> = <span class="num">21</span>
+<span class="keyword">is_student</span> = <span class="keyword" style="color:#B7D99A">True</span>
 
-      // run button : simulate backend execution with interactive feedback
-      function handleRun() {
-        const currentCode = codeDisplay ? codeDisplay.textContent : '';
-        // simulate processing / backend
-        const simulatedOutput = currentCode.includes('print') ? '✅  output: ' + currentCode.replace(/.*print\(([^)]*)\).*/, '$1') : '✨  code parsed (no output)';
-        // show interactive feedback
-        updateCodeAndFeedback(currentCode, '▶  ' + simulatedOutput, true);
-        // extra: subtle card interaction
-        const cards = document.querySelectorAll('.topic-card');
-        cards.forEach((card, idx) => {
-          if (idx % 2 === 0) {
-            card.style.transition = 'background 0.15s';
-            card.style.background = 'rgba(220, 235, 250, 0.4)';
-            setTimeout(() => { card.style.background = ''; }, 400);
-          }
-        });
-      }
+<span class="cmt"># print() shows the value</span>
+<span class="keyword">print</span>(<span class="keyword">name</span>, <span class="keyword">age</span>)</pre>
+        <div class="runbar">
+          <button class="runbtn" data-output="Aanya 21">Run ▶</button>
+          <div class="output"></div>
+        </div>
+      </div>
+      <div class="explain">
+        <p><strong>A variable</strong> is created the moment you assign it with <code>=</code>. Python figures out the type on its own — no need to declare it upfront.</p>
+        <ul>
+          <li><strong>Strings</strong> — text, wrapped in quotes: <code>"Aanya"</code></li>
+          <li><strong>Integers</strong> — whole numbers: <code>21</code></li>
+          <li><strong>Booleans</strong> — <code>True</code> or <code>False</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-      // reset button : restore default code & feedback
-      function handleReset() {
-        if (codeDisplay) {
-          codeDisplay.textContent = defaultCode;
-        }
-        updateCodeAndFeedback(defaultCode, 'reset to default · ready', true);
-        // reset any card background
-        document.querySelectorAll('.topic-card').forEach(c => c.style.background = '');
-      }
+  <section class="lesson" id="conditionals">
+    <div class="eyebrow">Lesson 02</div>
+    <h2>Making decisions</h2>
+    <p class="lead">Programs need to branch. <code>if / elif / else</code> lets your code choose a path based on a condition.</p>
+    <div class="grid">
+      <div class="codecard">
+        <pre><span class="keyword">age</span> = <span class="num">17</span>
 
-      // click on topic cards : load interactive snippet (like selecting a lesson)
-      function handleTopicClick(e) {
-        const card = e.currentTarget;
-        const topic = card.dataset.topic;
-        if (!topic) return;
+<span class="keyword">if</span> age >= 18:
+    <span class="keyword">print</span>(<span class="str">"You can vote"</span>)
+<span class="keyword">elif</span> age >= 13:
+    <span class="keyword">print</span>(<span class="str">"You're a teenager"</span>)
+<span class="keyword">else</span>:
+    <span class="keyword">print</span>(<span class="str">"Still a kid"</span>)</pre>
+        <div class="runbar">
+          <button class="runbtn" data-output="You're a teenager">Run ▶</button>
+          <div class="output"></div>
+        </div>
+      </div>
+      <div class="explain">
+        <p>Python checks conditions <strong>top to bottom</strong> and runs the first block that's <code>True</code>. Everything else is skipped.</p>
+        <p>Notice the <strong>indentation</strong> — Python uses it instead of curly braces to mark what belongs inside a block.</p>
+      </div>
+    </div>
+  </section>
 
-        let newCode = defaultCode;
-        let msg = '';
+  <section class="lesson" id="loops">
+    <div class="eyebrow">Lesson 03</div>
+    <h2>Repeating yourself, without repeating yourself</h2>
+    <p class="lead">Loops run a block of code multiple times so you don't have to copy-paste it.</p>
+    <div class="grid">
+      <div class="codecard">
+        <svg class="annot" style="top:-2px; left:10px; width:70px; height:36px;" viewBox="0 0 70 36" fill="none"><ellipse cx="35" cy="18" rx="32" ry="14" stroke="#FFD43B" stroke-width="2" fill="none"/></svg>
+        <span class="annot" style="top:-26px; left:0px;">runs 3 times</span>
+        <pre><span class="keyword">for</span> i <span class="keyword">in</span> range(3):
+    <span class="keyword">print</span>(<span class="str">"Lesson"</span>, i + 1)
 
-        if (topic === 'variables') {
-          newCode = codeVariants.variables;
-          msg = 'variables: dynamic & typed';
-        } else if (topic === 'functions') {
-          newCode = codeVariants.functions;
-          msg = 'functions: reusable logic';
-        } else if (topic === 'lists') {
-          newCode = codeVariants.lists;
-          msg = 'lists & loops: iteration';
-        } else if (topic === 'dictionaries') {
-          newCode = codeVariants.dictionaries;
-          msg = 'dictionaries: key-value';
-        } else {
-          newCode = defaultCode;
-          msg = 'topic ready';
-        }
+<span class="cmt"># while loops repeat until</span>
+<span class="cmt"># a condition becomes False</span>
+count = <span class="num">0</span>
+<span class="keyword">while</span> count < 2:
+    <span class="keyword">print</span>(<span class="str">"still going"</span>)
+    count += <span class="num">1</span></pre>
+        <div class="runbar">
+          <button class="runbtn" data-output="Lesson 1&#10;Lesson 2&#10;Lesson 3&#10;still going&#10;still going">Run ▶</button>
+          <div class="output"></div>
+        </div>
+      </div>
+      <div class="explain">
+        <p><strong><code>for</code></strong> loops are best when you know how many times to repeat, or you're going through items one by one.</p>
+        <p><strong><code>while</code></strong> loops keep going as long as a condition stays true — useful when you don't know the count in advance.</p>
+      </div>
+    </div>
+  </section>
 
-        if (codeDisplay) {
-          codeDisplay.textContent = newCode;
-        }
-        updateCodeAndFeedback(newCode, '📘  ' + msg, true);
+  <section class="lesson" id="functions">
+    <div class="eyebrow">Lesson 04</div>
+    <h2>Functions — reusable recipes</h2>
+    <p class="lead">A function packages up a set of steps under a name, so you can call it whenever you need it.</p>
+    <div class="grid">
+      <div class="codecard">
+        <pre><span class="keyword">def</span> greet(name):
+    <span class="keyword">return</span> <span class="str">f"Hello, {name}!"</span>
 
-        // highlight selected card
-        topicCards.forEach(c => c.style.background = '');
-        card.style.background = '#ddeaf5';
-        card.style.transition = 'background 0.2s';
-        setTimeout(() => { card.style.background = ''; }, 600);
-      }
+message = greet(<span class="str">"Rohan"</span>)
+<span class="keyword">print</span>(message)</pre>
+        <div class="runbar">
+          <button class="runbtn" data-output="Hello, Rohan!">Run ▶</button>
+          <div class="output"></div>
+        </div>
+      </div>
+      <div class="explain">
+        <p><code>def</code> starts a function definition. <code>name</code> is a <strong>parameter</strong> — a placeholder for whatever value gets passed in.</p>
+        <p><code>return</code> sends a value back to wherever the function was called, so you can store or reuse it.</p>
+      </div>
+    </div>
+  </section>
 
-      // attach event listeners
-      if (runBtn) runBtn.addEventListener('click', handleRun);
-      if (resetBtn) resetBtn.addEventListener('click', handleReset);
+  <section class="lesson" id="lists">
+    <div class="eyebrow">Lesson 05</div>
+    <h2>Lists — many values, one name</h2>
+    <p class="lead">A list holds an ordered collection of items, and you can loop over it, add to it, or grab items by position.</p>
+    <div class="grid">
+      <div class="codecard">
+        <pre>fruits = [<span class="str">"mango"</span>, <span class="str">"fig"</span>, <span class="str">"kiwi"</span>]
 
-      topicCards.forEach(card => {
-        card.addEventListener('click', handleTopicClick);
-      });
+<span class="keyword">print</span>(fruits[<span class="num">0</span>])       <span class="cmt"># first item</span>
+fruits.append(<span class="str">"pear"</span>)  <span class="cmt"># add to the end</span>
 
-      // extra interactivity: click on code prompt (just for fun)
-      const codePrompt = document.querySelector('.code-prompt');
-      if (codePrompt) {
-        codePrompt.addEventListener('click', function() {
-          const current = codeDisplay ? codeDisplay.textContent : '';
-          updateCodeAndFeedback(current, '👆  code prompt active', true);
-        });
-      }
+<span class="keyword">for</span> fruit <span class="keyword">in</span> fruits:
+    <span class="keyword">print</span>(fruit)</pre>
+        <div class="runbar">
+          <button class="runbtn" data-output="mango&#10;mango&#10;fig&#10;kiwi&#10;pear">Run ▶</button>
+          <div class="output"></div>
+        </div>
+      </div>
+      <div class="explain">
+        <p>Lists are <strong>zero-indexed</strong> — the first item is at position <code>0</code>, not <code>1</code>.</p>
+        <p><code>.append()</code> is a method that modifies the list in place, adding a new item to the end.</p>
+      </div>
+    </div>
+  </section>
 
-      // on load: ensure default state
-      window.addEventListener('load', function() {
-        if (codeDisplay) codeDisplay.textContent = defaultCode;
-        feedback.innerHTML = '<i class="fas fa-check-circle" style="color:#2a7a4b;"></i> ready';
-        // subtle animation
-        interactiveZone.classList.add('pulse-once');
-        setTimeout(() => interactiveZone.classList.remove('pulse-once'), 600);
-      });
+</main>
 
-    })();
-  </script>
+<footer>
+  <h3>That's the pilot.</h3>
+  <p>Five lessons, zero setup. Fork this repo, add your own lesson, or wire the "Run" buttons up to a real Python sandbox next.</p>
+  <span class="badge">index.html · no build step · GitHub Pages ready</span>
+</footer>
+
+<script>
+  // Hero typing animation
+  const typedEl = document.getElementById('typed');
+  const script = 'print("Hello, World!")\n\n>>> Welcome to Python.';
+  let i = 0;
+  function typeNext(){
+    if(i <= script.length){
+      typedEl.textContent = script.slice(0, i);
+      i++;
+      setTimeout(typeNext, 38);
+    } else {
+      typedEl.innerHTML = script + '<span class="cursor"></span>';
+    }
+  }
+  typeNext();
+
+  // Run buttons reveal canned output
+  document.querySelectorAll('.runbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const out = btn.parentElement.querySelector('.output');
+      out.textContent = btn.dataset.output;
+      out.classList.add('shown');
+    });
+  });
+</script>
 
 </body>
 </html>

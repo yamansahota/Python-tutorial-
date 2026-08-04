@@ -1,1 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python · mature learning</title>
+  <!-- Font & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #f6f9fc 0%, #edf2f7 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      color: #1a2a3a;
+    }
+
+    /* main card – attractive & interactive */
+    .learn-card {
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 56px;
+      padding: 2.5rem 2.8rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                  inset 0 1px 2px rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .learn-card:hover {
+      transform: scale(1.005);
+      box-shadow: 0 30px 60px -15px rgba(0, 20, 40, 0.3);
+    }
+
+    /* header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+      border-bottom: 2px dashed rgba(52, 73, 94, 0.15);
+      padding-bottom: 1.2rem;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      background: #2c3e50;
+      color: #f1c40f;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      font-size: 1.8rem;
+      box-shadow: 0 8px 14px -6px rgba(44, 62, 80, 0.3);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #1e2a36, #2c3e50);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-text span {
+      font-weight: 400;
+      background: none;
+      -webkit-text-fill-color: #3a5a7a;
+      color: #3a5a7a;
+    }
+
+    .mature-badge {
+      background: #e8edf3;
+      padding: 0.5rem 1.2rem;
+      border-radius: 100px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #1e3a5f;
+      border: 1px solid #cddae9;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .mature-badge i {
+      margin-right: 6px;
+      color: #d4a017;
+    }
+
+    /* tagline */
+    .tagline {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #2b4a6a;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 0.6rem 1.4rem;
+      border-radius: 40px;
+      display: inline-block;
+      backdrop-filter: blur(4px);
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    .tagline i {
+      margin-right: 8px;
+      color: #1e6f9f;
+    }
+
+    /* grid – interactive content */
+    .python-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.8rem;
+      margin: 2.2rem 0 2.5rem;
+    }
+
+    .topic-card {
+      background: white;
+      border-radius: 28px;
+      padding: 1.6rem 1rem 1.4rem;
+      text-align: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 18px -8px rgba(0, 20, 40, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(2px);
+      cursor: default;
+    }
+
+    .topic-card:hover {
+      transform: translateY(-6px);
+      background: #ffffff;
+      box-shadow: 0 18px 30px -12px rgba(0, 40, 70, 0.2);
+      border-color: #b0c9e0;
+    }
+
+    .topic-card i {
+      font-size: 2.8rem;
+      color: #2c3e50;
+      background: #ecf3fa;
+      padding: 0.7rem;
+      border-radius: 20px;
+      margin-bottom: 0.75rem;
+      transition: 0.2s;
+    }
+
+    .topic-card:hover i {
+      background: #d4e2f0;
+      color: #1a2f44;
+      transform: scale(1.02);
+    }
+
+    .topic-card h3 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+      color: #1f3347;
+    }
+
+    .topic-card p {
+      font-size: 0.9rem;
+      color: #4a627a;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    .interactive-area {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 40px;
+      padding: 1.8rem 2.2rem;
+      margin-top: 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem 1.8rem;
+    }
+
+    .code-prompt {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      background: #1e2c3c;
+      padding: 0.5rem 1.2rem 0.5rem 1.8rem;
+      border-radius: 60px;
+      color: #e6edf5;
+      font-family: 'Inter', monospace;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .code-prompt i {
+      color: #f1c40f;
+      font-size: 1.2rem;
+    }
+
+    .code-prompt .code {
+      background: #2a3b4e;
+      padding: 0.2rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      color: #c7d9e8;
+    }
+
+    .interactive-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #1a2e44;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+      border: 1px solid #d6e2ee;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(2px);
+    }
+
+    .btn i {
+      font-size: 1rem;
+      color: #2f4a6b;
+    }
+
+    .btn-primary {
+      background: #1f3349;
+      border: 1px solid #304a66;
+      color: white;
+      box-shadow: 0 6px 14px rgba(26, 47, 70, 0.25);
+    }
+
+    .btn-primary i {
+      color: #f1c40f;
+    }
+
+    .btn-primary:hover {
+      background: #2a405a;
+      transform: scale(1.02);
+      border-color: #4f6d8c;
+      box-shadow: 0 10px 20px -6px #1a2f44;
+    }
+
+    .btn-outline:hover {
+      background: #dde6f0;
+      border-color: #8da3bb;
+      transform: scale(1.02);
+    }
+
+    #feedbackMessage {
+      font-size: 0.95rem;
+      padding: 0.3rem 0 0 0.5rem;
+      color: #1f4a6e;
+      font-weight: 500;
+      min-width: 140px;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: #3f5a78;
+      border-top: 1px solid rgba(60, 80, 100, 0.15);
+      padding-top: 1.5rem;
+    }
+
+    .footer-note i {
+      color: #b22234;
+    }
+
+    .progress-indicator {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-indicator .bar {
+      width: 100px;
+      height: 6px;
+      background: #d0dceb;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .progress-indicator .bar .fill {
+      height: 100%;
+      width: 68%;
+      background: linear-gradient(90deg, #2e5a7a, #4b7aa1);
+      border-radius: 20px;
+    }
+
+    /* responsive */
+    @media (max-width: 700px) {
+      .learn-card {
+        padding: 1.8rem;
+        border-radius: 36px;
+      }
+      .header {
+        flex-direction: column;
+        align-items: start;
+        gap: 0.8rem;
+      }
+      .interactive-area {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .code-prompt {
+        justify-content: center;
+      }
+    }
+
+    /* interactive pulse */
+    .pulse-once {
+      animation: pulse 0.5s ease 1;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); background: #e7eff8; }
+      100% { transform: scale(1); }
+    }
+
+    .clickable-card {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="learn-card">
+    <!-- header -->
+    <div class="header">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="fab fa-python"></i></div>
+        <div class="logo-text">Python<span> · mature</span></div>
+      </div>
+      <div class="mature-badge">
+        <i class="fas fa-graduation-cap"></i> lifelong learning
+      </div>
+    </div>
+
+    <!-- tagline -->
+    <div class="tagline">
+      <i class="fas fa-leaf"></i>  curated for experienced minds · learn at your own rhythm
+    </div>
+
+    <!-- interactive grid : attractive topics -->
+    <div class="python-grid">
+      <div class="topic-card clickable-card" data-topic="variables">
+        <i class="fas fa-code"></i>
+        <h3>Variables</h3>
+        <p>dynamic, typed, intuitive</p>
+      </div>
+      <div class="topic-card clickable-card" data-topic="functions">
+        <i class="fas fa-cogs"></i>
+        <h3>Functions</h3>
+        <p>reusable & clean</p>
+      </div>
+      <div class="topic-card clickable-card" data-topic="lists">
+        <i class="fas fa-list-ul"></i>
+        <h3>Lists & loops</h3>
+        <p>iterate with confidence</p>
+      </div>
+      <div class="topic-card clickable-card" data-topic="dictionaries">
+        <i class="fas fa-database"></i>
+        <h3>Dictionaries</h3>
+        <p>key‑value mastery</p>
+      </div>
+    </div>
+
+    <!-- interactive area : backend feeling & actions -->
+    <div class="interactive-area" id="interactiveZone">
+      <div class="code-prompt">
+        <i class="fas fa-terminal"></i>
+        <span class="code">print(“Hello, mature learner!”)</span>
+        <span style="opacity:0.6; font-weight:300; margin-left:4px;">&nbsp;▍</span>
+      </div>
+
+      <div class="interactive-actions">
+        <button class="btn btn-primary" id="runCodeBtn"><i class="fas fa-play"></i> Run</button>
+        <button class="btn btn-outline" id="resetCodeBtn"><i class="fas fa-sync-alt"></i> Reset</button>
+        <span id="feedbackMessage"><i class="fas fa-check-circle" style="color:#2a7a4b;"></i> ready</span>
+      </div>
+    </div>
+
+    <!-- footer + progress -->
+    <div class="footer-note">
+      <div>
+        <i class="fas fa-book-open"></i>  <strong>6 modules</strong> · 2 active
+      </div>
+      <div class="progress-indicator">
+        <span><i class="fas fa-hourglass-half"></i>  progress</span>
+        <div class="bar"><div class="fill"></div></div>
+        <span>68%</span>
+      </div>
+      <div>
+        <i class="fas fa-clock"></i>  last activity: today
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // interactive elements
+      const feedback = document.getElementById('feedbackMessage');
+      const runBtn = document.getElementById('runCodeBtn');
+      const resetBtn = document.getElementById('resetCodeBtn');
+      const codeDisplay = document.querySelector('.code');
+      const interactiveZone = document.getElementById('interactiveZone');
+      const topicCards = document.querySelectorAll('.topic-card');
+
+      // default code state
+      const defaultCode = 'print(“Hello, mature learner!”)';
+      const codeVariants = {
+        variables: 'age = 55 · name = “Elena” · print(age, name)',
+        functions: 'def greet(): return “Welcome back!” · print(greet())',
+        lists: 'topics = [“OOP”, “data”, “AI”] · for t in topics: print(t)',
+        dictionaries: 'person = {“name”: “Carl”, “level”: “pro”} · print(person[“name”])'
+      };
+
+      // helper: update code and feedback with a small interactive effect
+      function updateCodeAndFeedback(newCode, msg, isSuccess = true) {
+        if (codeDisplay) {
+          codeDisplay.textContent = newCode;
+        }
+        if (feedback) {
+          feedback.innerHTML = (isSuccess ? '<i class="fas fa-check-circle" style="color:#2a7a4b;"></i> ' : '<i class="fas fa-info-circle" style="color:#b07d1b;"></i> ') + msg;
+          // add a small pulse animation
+          feedback.classList.remove('pulse-once');
+          void feedback.offsetWidth; // trigger reflow
+          feedback.classList.add('pulse-once');
+        }
+        // pulse the interactive zone softly
+        interactiveZone.classList.remove('pulse-once');
+        void interactiveZone.offsetWidth;
+        interactiveZone.classList.add('pulse-once');
+      }
+
+      // run button : simulate backend execution with interactive feedback
+      function handleRun() {
+        const currentCode = codeDisplay ? codeDisplay.textContent : '';
+        // simulate processing / backend
+        const simulatedOutput = currentCode.includes('print') ? '✅  output: ' + currentCode.replace(/.*print\(([^)]*)\).*/, '$1') : '✨  code parsed (no output)';
+        // show interactive feedback
+        updateCodeAndFeedback(currentCode, '▶  ' + simulatedOutput, true);
+        // extra: subtle card interaction
+        const cards = document.querySelectorAll('.topic-card');
+        cards.forEach((card, idx) => {
+          if (idx % 2 === 0) {
+            card.style.transition = 'background 0.15s';
+            card.style.background = 'rgba(220, 235, 250, 0.4)';
+            setTimeout(() => { card.style.background = ''; }, 400);
+          }
+        });
+      }
+
+      // reset button : restore default code & feedback
+      function handleReset() {
+        if (codeDisplay) {
+          codeDisplay.textContent = defaultCode;
+        }
+        updateCodeAndFeedback(defaultCode, 'reset to default · ready', true);
+        // reset any card background
+        document.querySelectorAll('.topic-card').forEach(c => c.style.background = '');
+      }
+
+      // click on topic cards : load interactive snippet (like selecting a lesson)
+      function handleTopicClick(e) {
+        const card = e.currentTarget;
+        const topic = card.dataset.topic;
+        if (!topic) return;
+
+        let newCode = defaultCode;
+        let msg = '';
+
+        if (topic === 'variables') {
+          newCode = codeVariants.variables;
+          msg = 'variables: dynamic & typed';
+        } else if (topic === 'functions') {
+          newCode = codeVariants.functions;
+          msg = 'functions: reusable logic';
+        } else if (topic === 'lists') {
+          newCode = codeVariants.lists;
+          msg = 'lists & loops: iteration';
+        } else if (topic === 'dictionaries') {
+          newCode = codeVariants.dictionaries;
+          msg = 'dictionaries: key-value';
+        } else {
+          newCode = defaultCode;
+          msg = 'topic ready';
+        }
+
+        if (codeDisplay) {
+          codeDisplay.textContent = newCode;
+        }
+        updateCodeAndFeedback(newCode, '📘  ' + msg, true);
+
+        // highlight selected card
+        topicCards.forEach(c => c.style.background = '');
+        card.style.background = '#ddeaf5';
+        card.style.transition = 'background 0.2s';
+        setTimeout(() => { card.style.background = ''; }, 600);
+      }
+
+      // attach event listeners
+      if (runBtn) runBtn.addEventListener('click', handleRun);
+      if (resetBtn) resetBtn.addEventListener('click', handleReset);
+
+      topicCards.forEach(card => {
+        card.addEventListener('click', handleTopicClick);
+      });
+
+      // extra interactivity: click on code prompt (just for fun)
+      const codePrompt = document.querySelector('.code-prompt');
+      if (codePrompt) {
+        codePrompt.addEventListener('click', function() {
+          const current = codeDisplay ? codeDisplay.textContent : '';
+          updateCodeAndFeedback(current, '👆  code prompt active', true);
+        });
+      }
+
+      // on load: ensure default state
+      window.addEventListener('load', function() {
+        if (codeDisplay) codeDisplay.textContent = defaultCode;
+        feedback.innerHTML = '<i class="fas fa-check-circle" style="color:#2a7a4b;"></i> ready';
+        // subtle animation
+        interactiveZone.classList.add('pulse-once');
+        setTimeout(() => interactiveZone.classList.remove('pulse-once'), 600);
+      });
+
+    })();
+  </script>
+
+</body>
+</html>
